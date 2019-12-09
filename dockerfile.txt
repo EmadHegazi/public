@@ -1,0 +1,11 @@
+FROM ubuntu:18.04
+RUN apt-get -y update
+RUN apt-get install -y nagios-nrpe-server nagios-plugins net-tools
+
+
+ENV NAGIOS_CONF_DIR /etc/nagios
+ENV NAGIOS_PLUGINS_DIR /usr/lib/nagios/plugins
+
+RUN echo "[check_mysql]=/usr/lib/nagios/plugins/check_mysql mysql_container mysql -u root -ppassword" >> /etc/nagios/nrpe.cfg
+RUN /etc/init.d/nagios-nrpe-server start
+
